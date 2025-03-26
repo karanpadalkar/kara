@@ -1,0 +1,170 @@
+	Slip 12:
+Q1.Create a Simple Application Which Send ―Hi‖ message from one activity to another with help of Button (Use Intent).
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Message" />
+</LinearLayout>]
+
+activity_second.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message will appear here"
+        android:textSize="20sp" />
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip6q1;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Button;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button sendButton = findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("message", "Hello!");
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+SecondActivity.java
+
+package com.example.slip6q1;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class SecondActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        TextView textView = findViewById(R.id.textView);
+        String message = getIntent().getStringExtra("message");
+        textView.setText(message);
+    }
+}
+
+AndroidManifest.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.slip6q1">
+    <application
+        android:allowBackup="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat">
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SecondActivity"/>
+    </application>
+</manifest>
+
+Q.2 Create an application to demonstrate date and time picker.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:layout_marginBottom="16dp"/>
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="clock"
+        android:layout_marginBottom="16dp"/>
+    <Button
+        android:id="@+id/showButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Date  Time"
+        android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Date and Time will appear here"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"/>
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip12q2b;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    TextView textView;
+    DatePicker datePicker;
+    TimePicker timePicker;
+    Button showButton;
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        textView = findViewById(R.id.textView);
+        datePicker = findViewById(R.id.datePicker);
+        timePicker = findViewById(R.id.timePicker);
+        showButton = findViewById(R.id.showButton);
+        showButton.setOnClickListener(v -> {
+            int day = datePicker.getDayOfMonth();
+            int month = datePicker.getMonth() + 1;
+            int year = datePicker.getYear();
+            int hour = timePicker.getHour();
+            int minute = timePicker.getMinute();
+            String selectedDateTime = "Selected Date: " + day + "/" + month + "/" + year +
+                    "\nSelected Time: " + hour + ":" + String.format("%02d", minute);
+            textView.setText(selectedDateTime);
+        });
+    }
+}

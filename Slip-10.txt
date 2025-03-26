@@ -1,0 +1,91 @@
+Slip 10:
+Q1. Create an Android Application that Demonstrate Switch and Toggle Button.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
+    <Switch
+        android:id="@+id/switchBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch"/>
+    <ToggleButton
+        android:id="@+id/toggleBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="ON"
+        android:textOff="OFF"/>
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: OFF"
+        android:textSize="18sp"
+        android:paddingTop="10dp"/>
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip10q1;
+import android.os.Bundle;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Switch switchBtn = findViewById(R.id.switchBtn);
+        ToggleButton toggleBtn = findViewById(R.id.toggleBtn);
+        TextView statusText = findViewById(R.id.statusText);
+        switchBtn.setOnCheckedChangeListener((btn, isChecked) ->
+                statusText.setText("Switch: " + (isChecked ? "ON" : "OFF")));
+        toggleBtn.setOnCheckedChangeListener((btn, isChecked) ->
+                statusText.setText("Toggle: " + (isChecked ? "ON" : "OFF")));
+    }
+}
+Q2. Demonstrate Array Adapter using List View to display list of fruits.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip10q2;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ListView listView = findViewById(R.id.listView);
+        String[] fruits = {"Apple", "Banana", "Cherry", "Grapes", "Mango", "Orange", "Pineapple"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, fruits);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view, position, id) ->
+                Toast.makeText(this, "Selected: " + fruits[position], Toast.LENGTH_SHORT).show());
+    }
+}

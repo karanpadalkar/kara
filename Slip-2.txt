@@ -1,0 +1,258 @@
+Slip 2:
+Q1. Create a Simple Application, which reads a positive number from the user and display its factorial value in another activity.
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+    <EditText
+        android:id="@+id/inputNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter number"
+        android:inputType="number"/>
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calculate"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>
+
+activity_result.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"/>
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip2q1;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        EditText inputNumber = findViewById(R.id.inputNumber);
+        Button calculateButton = findViewById(R.id.calculateButton);
+        calculateButton.setOnClickListener(v -> {
+            int num = Integer.parseInt(inputNumber.getText().toString());
+            long fact = 1;
+            for (int i = 1; i <= num; i++) fact *= i;
+            Intent intent = new Intent(this, ResultActivity.class);
+            intent.putExtra("result", fact);
+            startActivity(intent);
+        });
+    }
+}
+
+ResultActivity.java
+
+package com.example.slip2q1;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class ResultActivity extends AppCompatActivity {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+        long result = getIntent().getLongExtra("result", 1);
+        ((TextView) findViewById(R.id.resultText)).setText("Factorial: " + result);
+    }
+}
+
+AndroidManifest.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Slip2q1"
+        tools:targetApi="31">
+        <activity android:name=".ResultActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+
+Q2. Create an Android application that plays an audio(song) in the background. Audio will not be stopped even if you switch to another activity. To stop the audio, you need to stop the service
+Create drectory(raw) Add song file into res/raw/song.mp3
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Audio" />
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Audio"
+        android:layout_marginTop="16dp" />
+    <Button
+        android:id="@+id/nextActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Next Activity"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip2q2audio;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button startButton = findViewById(R.id.startButton);
+        Button stopButton = findViewById(R.id.stopButton);
+        Button nextActivityButton = findViewById(R.id.nextActivityButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AudioService.class);
+                startService(intent);
+            }
+        });
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AudioService.class);
+                stopService(intent);
+            }
+        });
+        nextActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AnotherActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+AnotherActivity.java
+
+package com.example.slip2q2audio;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+public class AnotherActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_another);
+    }
+}
+
+AudioService.java
+
+package com.example.slip2q2audio;
+import android.app.Service;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.IBinder;
+public class AudioService extends Service {
+    private MediaPlayer mediaPlayer;
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mediaPlayer = MediaPlayer.create(this, R.raw.song);
+        mediaPlayer.setLooping(true);
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mediaPlayer.start();
+        return START_STICKY;
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+    }
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+activity_another.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is Another Activity"
+        android:textSize="24sp" />
+</LinearLayout
+
+AndroidManifest.xml
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.slip2q2audio">
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Slip2q2audio">
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AnotherActivity" />
+        <service android:name=".AudioService" />
+    </application>
+</manifest>

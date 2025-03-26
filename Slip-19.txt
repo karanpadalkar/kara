@@ -1,0 +1,346 @@
+Slip 19:
+Q1. Create an Android Application that on/off the bulb using Toggle Button.
+Add bulb_off, bulb_on img in res->drawable->
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+    <ImageView
+        android:id="@+id/bulbImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/bulb_off"/>
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOn="Turn OFF"
+        android:textOff="Turn ON"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip19q1;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.ToggleButton;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    ImageView bulbImage;
+    ToggleButton toggleButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        bulbImage = findViewById(R.id.bulbImage);
+        toggleButton = findViewById(R.id.toggleButton);
+        toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                bulbImage.setImageResource(R.drawable.bulb_on);
+            } else {
+                bulbImage.setImageResource(R.drawable.bulb_off);
+            }
+        });
+    }
+}
+
+Q2.Design Following Screens using Table Layout. Display the entered text on next activity
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFFFFF">
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="250dp"
+        android:gravity="center"
+        android:paddingTop="40dp"
+        android:paddingBottom="20dp"
+        android:text="Membership Form"
+        android:textColor="#800080"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+    <EditText
+        android:id="@+id/fullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-220dp"
+        android:hint="Full Name"
+        android:padding="10dp"
+        android:textSize="16sp" />
+    <RadioGroup
+        android:id="@+id/genderGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender: " />
+        <RadioButton
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M" />
+        <RadioButton
+            android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="F" />
+        <RadioButton
+            android:id="@+id/other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other" />
+    </RadioGroup>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/currentWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Current Weight"
+            android:layout_marginTop="40dp"
+            android:padding="10dp"
+            android:textSize="16sp" />
+        <EditText
+            android:id="@+id/height"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Height"
+            android:layout_marginTop="40dp"
+            android:padding="10dp"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <EditText
+            android:id="@+id/goalWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Goal Weight"
+            android:layout_marginTop="35dp"
+            android:padding="10dp"
+            android:textSize="16sp"/>
+        <EditText
+            android:id="@+id/age"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Age"
+            android:layout_marginTop="35dp"
+            android:padding="10dp"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone"
+        android:layout_marginTop="35dp"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:textSize="16sp"/>
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address"
+        android:layout_marginTop="35dp"
+        android:padding="10dp"
+        android:textSize="16sp"/>
+    <CheckBox
+        android:id="@+id/termsCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I have read, understood, and accepted membership rules"
+        android:layout_marginTop="35dp"/>
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="#800080"
+        android:padding="10dp"
+        android:text="SUBMIT"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp" />
+</LinearLayout>
+
+activity_result.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="left"
+        android:padding="20dp"
+        android:text="Results will appear here..." />
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip19q2;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    private EditText fullName, currentWeight, goalWeight, height, age, phone, address;
+    private RadioGroup genderGroup;
+    private CheckBox termsCheckBox;
+    private Button submitButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        fullName = findViewById(R.id.fullName);
+        currentWeight = findViewById(R.id.currentWeight);
+        goalWeight = findViewById(R.id.goalWeight);
+        height = findViewById(R.id.height);
+        age = findViewById(R.id.age);
+        phone = findViewById(R.id.phone);
+        address = findViewById(R.id.address);
+        genderGroup = findViewById(R.id.genderGroup);
+        termsCheckBox = findViewById(R.id.termsCheckBox);
+        submitButton = findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendDataToNextActivity();
+            }
+        });
+    }
+    private void sendDataToNextActivity() {
+        String name = fullName.getText().toString().trim();
+        String weight = currentWeight.getText().toString().trim();
+        String goal = goalWeight.getText().toString().trim();
+        String heightValue = height.getText().toString().trim();
+        String ageValue = age.getText().toString().trim();
+        String phoneValue = phone.getText().toString().trim();
+        String addressValue = address.getText().toString().trim();
+        int selectedGenderId = genderGroup.getCheckedRadioButtonId();
+        RadioButton selectedGender = findViewById(selectedGenderId);
+        String gender = selectedGender != null ? selectedGender.getText().toString() : "Not Selected";
+        if (name.isEmpty() || phoneValue.isEmpty() || !termsCheckBox.isChecked()) {
+            Toast.makeText(this, "Please fill in all fields and accept terms", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("weight", weight);
+        intent.putExtra("goal", goal);
+        intent.putExtra("height", heightValue);
+        intent.putExtra("age", ageValue);
+        intent.putExtra("phone", phoneValue);
+        intent.putExtra("address", addressValue);
+        intent.putExtra("gender", gender);
+        startActivity(intent);
+    }
+}
+
+ResultActivity.java
+
+package com.example.slip19q2;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class ResultActivity extends AppCompatActivity {
+    private TextView resultText;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+        resultText = findViewById(R.id.resultText);
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        String weight = intent.getStringExtra("weight");
+        String goal = intent.getStringExtra("goal");
+        String height = intent.getStringExtra("height");
+        String age = intent.getStringExtra("age");
+        String phone = intent.getStringExtra("phone");
+        String address = intent.getStringExtra("address");
+        String gender = intent.getStringExtra("gender");
+        String displayMessage = "Membership Details:\n\n"
+                + "Full Name: " + name + "\n"
+                + "Gender: " + gender + "\n"
+                + "Current Weight: " + weight + "\n"
+                + "Goal Weight: " + goal + "\n"
+                + "Height: " + height + "\n"
+                + "Age: " + age + "\n"
+                + "Phone: " + phone + "\n"
+                + "Address: " + address;
+        resultText.setText(displayMessage);
+    }
+}
+
+AndroidManifest.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Slip19q2"
+        tools:targetApi="31">
+        <activity android:name=".ResultActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

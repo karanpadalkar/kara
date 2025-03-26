@@ -1,0 +1,130 @@
+Slip 3:
+Q1. Create an Android Application that will change color of the College Name on click of Push Button and change the font size, font style of text view using xml.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/collegeNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Haribhai V. Desai, Pune"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginBottom="20dp"/>
+    <Button
+        android:id="@+id/changeTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Text Appearance" />
+</LinearLayout>
+
+
+MainActivity.java
+
+package com.example.slip3q1;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    public TextView collegeNameTextView;
+    public Button changeTextButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        collegeNameTextView = findViewById(R.id.collegeNameTextView);
+        changeTextButton = findViewById(R.id.changeTextButton);
+        changeTextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collegeNameTextView.setTextColor(Color.BLUE);
+                collegeNameTextView.setTextSize(30);
+                collegeNameTextView.setTypeface(null, Typeface.BOLD_ITALIC);
+            }
+        });
+    }
+}
+
+Q2. Create an Android Application to find the factorial of a number and Display the Result on Alert Box.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
+    <EditText
+        android:id="@+id/etNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter a number"
+        android:inputType="number" />
+    <Button
+        android:id="@+id/btnCalculate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Factorial"
+        android:layout_gravity="center" />
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip3q2b;
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    EditText etNumber;
+    Button btnCalculate;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        etNumber = findViewById(R.id.etNumber);
+        btnCalculate = findViewById(R.id.btnCalculate);
+        btnCalculate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateFactorial();
+            }
+        });
+    }
+    private void calculateFactorial() {
+        String input = etNumber.getText().toString();
+        if (input.isEmpty()) {
+            showAlert("Error", "Please enter a number");
+            return;
+        }
+        int number = Integer.parseInt(input);
+        long factorial = 1;
+        for (int i = 1; i <= number; i++) {
+            factorial *= i;
+        }
+        showAlert("Factorial Result", "Factorial of " + number + " is " + factorial);
+    }
+    private void showAlert(String title, String message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show();
+    }
+}

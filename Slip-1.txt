@@ -1,0 +1,121 @@
+Slip 1
+Q1. Create a Simple Application which shows the Life Cycle of Activity.
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".MainActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+</LinearLayout>
+
+
+MainActivity.java
+
+package com.example.slip1q1;
+import android.os.Bundle;
+import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    String tag="Events";
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.d(tag, "in on create event");
+    }
+    public void onStart()
+    {
+    super.onStart();
+    Log.d(tag,"in the onStart() event");
+    }
+    public void onRestart()
+    {
+    super.onRestart();
+    Log.d(tag,"in the onRestart () event");
+    }
+    public void onResume()
+    {
+        super.onResume();
+        Log.d(tag,"in the onResume() event");
+    }
+    public void onPause()
+    {
+        super.onPause();
+        Log.d(tag,"in the onPause() event");
+    }
+    public void onStop()
+    {
+        super.onStop();
+        Log.d(tag,"in the onStop() event");
+    }
+    public void onDestroy()
+    {
+        super.onDestroy();
+        Log.d(tag,"in the onDestroy() event");
+    }
+}
+Q2. Create an Android Application that demonstrate DatePicker and DatePickerDailog.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+    <Button
+        android:id="@+id/showDatePickerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Select Date" />
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip110;
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.Calendar;
+public class MainActivity extends AppCompatActivity {
+    private TextView dateTextView;
+    private Button showDatePickerButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        dateTextView = findViewById(R.id.dateTextView);
+        showDatePickerButton = findViewById(R.id.showDatePickerButton);
+        showDatePickerButton.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            new DatePickerDialog(this, (view, year, month, dayOfMonth) ->
+                    dateTextView.setText("date: " + dayOfMonth + "/" + (month + 1) + "/" + year),
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            ).show();
+        });
+    }
+}

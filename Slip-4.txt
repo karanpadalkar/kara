@@ -1,0 +1,112 @@
+Slip 4:
+Q1. Create a Simple Application, that performs Arithmetic Operations. (Use constraint
+layout)
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <EditText
+        android:id="@+id/num1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter first number"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp"/>
+    <EditText
+        android:id="@+id/num2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter second number"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/num1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        app:layout_constraintTop_toBottomOf="@id/num2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+    <Button
+        android:id="@+id/sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintTop_toBottomOf="@id/add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/mul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="×"
+        app:layout_constraintTop_toBottomOf="@id/sub"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/div"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="÷"
+        app:layout_constraintTop_toBottomOf="@id/mul"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result: "
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/div"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+MainActivity.java
+
+package com.example.slip4q1;
+import android.os.Bundle;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    EditText num1, num2;
+    TextView result;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        num1 = findViewById(R.id.num1);
+        num2 = findViewById(R.id.num2);
+        result = findViewById(R.id.result);
+        findViewById(R.id.add).setOnClickListener(v -> calculate('+'));
+        findViewById(R.id.sub).setOnClickListener(v -> calculate('-'));
+        findViewById(R.id.mul).setOnClickListener(v -> calculate('*'));
+        findViewById(R.id.div).setOnClickListener(v -> calculate('/'));
+    }
+    private void calculate(char op) {
+        double n1 = Double.parseDouble(num1.getText().toString());
+        double n2 = Double.parseDouble(num2.getText().toString());
+        double res = (op == '+') ? n1 + n2 : (op == '-') ? n1 - n2 : (op == '*') ? n1 * n2 : (n2 != 0 ? n1 / n2 : 0);
+        result.setText("Result: " + res);
+    }
+}
+
+Q2. Create an android Application for performing the following operation on the table
+Customer (id, name, address, phno). (use SQLite database)
+i) Insert New Customer Details.
+ii) Show All the Customer Details on Toast Message.

@@ -1,0 +1,241 @@
+Slip 11:
+Q.1 Create android application to change Font Size, Color and Font Family of String.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hiii Amit"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:fontFamily="sans-serif"
+        android:padding="20dp"/>
+    <Spinner
+        android:id="@+id/colorSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Spinner
+        android:id="@+id/fontSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <SeekBar
+        android:id="@+id/sizeSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="50"/>
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip11q1;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        TextView textView = findViewById(R.id.textView);
+        Spinner colorSpinner = findViewById(R.id.colorSpinner);
+        Spinner fontSpinner = findViewById(R.id.fontSpinner);
+        SeekBar sizeSeekBar = findViewById(R.id.sizeSeekBar);
+        String[] colors = {"Black", "Red", "Blue", "Green"};
+        String[] fonts = {"sans-serif", "serif", "monospace"};
+        ArrayAdapter<String> colorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, colors);
+        ArrayAdapter<String> fontAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fonts);
+        colorSpinner.setAdapter(colorAdapter);
+        fontSpinner.setAdapter(fontAdapter);
+        colorSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+                switch (position) {
+                    case 0: textView.setTextColor(Color.BLACK); break;
+                    case 1: textView.setTextColor(Color.RED); break;
+                    case 2: textView.setTextColor(Color.BLUE); break;
+                    case 3: textView.setTextColor(Color.GREEN); break;
+                }
+            }
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
+        fontSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+                textView.setTypeface(android.graphics.Typeface.create(fonts[position], android.graphics.Typeface.NORMAL));
+            }
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
+        sizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                textView.setTextSize(progress + 10);
+            }
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+    }
+}
+Q.2 Create First Activity to accept information like Student First Name, Middle Name, Last Name, Date of birth, Address, Email ID and display all information on Second Activity when user click on the Submit button.
+
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
+    <EditText
+        android:id="@+id/firstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="First Name" />
+    <EditText
+        android:id="@+id/middleName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Middle Name" />
+    <EditText
+        android:id="@+id/lastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Last Name" />
+    <EditText
+        android:id="@+id/dob"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date of Birth" />
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address" />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email ID" />
+    <Button
+        android:id="@+id/submitBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+</LinearLayout>
+
+activity_second.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
+    <TextView
+        android:id="@+id/displayInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Student Information"
+        android:padding="10dp" />
+</LinearLayout>
+
+MainActivity.java
+
+package com.example.slip11q2;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        EditText firstName = findViewById(R.id.firstName);
+        EditText middleName = findViewById(R.id.middleName);
+        EditText lastName = findViewById(R.id.lastName);
+        EditText dob = findViewById(R.id.dob);
+        EditText address = findViewById(R.id.address);
+        EditText email = findViewById(R.id.email);
+        Button submitBtn = findViewById(R.id.submitBtn);
+        submitBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+            intent.putExtra("firstName", firstName.getText().toString());
+            intent.putExtra("middleName", middleName.getText().toString());
+            intent.putExtra("lastName", lastName.getText().toString());
+            intent.putExtra("dob", dob.getText().toString());
+            intent.putExtra("address", address.getText().toString());
+            intent.putExtra("email", email.getText().toString());
+            startActivity(intent);
+        });
+    }
+}
+
+SecondActivity.java
+
+package com.example.slip11q2;
+import android.os.Bundle;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+public class SecondActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_second);
+        TextView displayInfo = findViewById(R.id.displayInfo);
+        String firstName = getIntent().getStringExtra("firstName");
+        String middleName = getIntent().getStringExtra("middleName");
+        String lastName = getIntent().getStringExtra("lastName");
+        String dob = getIntent().getStringExtra("dob");
+        String address = getIntent().getStringExtra("address");
+        String email = getIntent().getStringExtra("email");
+        String studentDetails = "Name: " + firstName + " " + middleName + " " + lastName +
+                "\nDate of Birth: " + dob +
+                "\nAddress: " + address +
+                "\nEmail: " + email;
+        displayInfo.setText(studentDetails);
+    }
+}
+
+AndroidManifest.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Slip11q2"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SecondActivity" />
+    </application>
+</manifest>
